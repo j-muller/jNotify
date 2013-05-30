@@ -1,0 +1,77 @@
+/*
+ * jNotify.css
+ * Written by Jeffrey Muller
+ * jHeberg.net - 2013
+ */
+
+body {
+    background: #ffefd5;
+}
+
+#jnotify-box {
+    position: fixed;
+    width: 300px;
+    color: white;
+    border-radius: 3px;
+
+    /* background */
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.7);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+    -webkit-box-shadow:  0px 2px 10px 0px rgba(0, 0, 0, 0.4);
+    box-shadow:  0px 2px 10px 0px rgba(0, 0, 0, 0.4);
+}
+
+.close {
+    color: white;
+    font-size: 18px;
+    position: absolute;
+    top: 0px;
+    left: 5px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+    text-shadow: 0 1px 0 #ffffff;
+    font-weight: bold;
+    line-height: 20px;
+    opacity: 0.2;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.close:hover, .close:focus {
+  color: #000000;
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+}
+
+#jnotify-box p {
+    margin: 0;
+}
+
+#jnotify-box.top {
+    top: 30px;
+}
+
+#jnotify-box.right {
+    right: 30px;
+}
+
+#jnotify-box.left {
+    left: 30px;
+}
+
+#jnotify-box.bottom {
+    bottom: 30px;
+}
+
+#jnotify-box #content {
+    font-family: "Calibri", "Trebuchet MS", Arial, serif;
+    font-size: 11px;
+    margin: 0 30px;
+    padding: 10px 0;
+    word-wrap: break-word;
+}
