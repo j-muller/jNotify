@@ -54,6 +54,7 @@
                     remove(e);
                     clearInterval(t);
                 }, o.timeout);
+                $(e).find('button.close').click(o.onClickClose);
             }
 
             displayed++;
