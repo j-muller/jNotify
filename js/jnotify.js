@@ -13,13 +13,11 @@
     ////////////////////////
 
     create = function() {
-        if (notifications.length === 0) {
+        if ($('body div.jNotify').length === 0) {
             var container = $('<div>').addClass(o.position + ' jNotify');
 
             $('body').append(container);
         }
-
-        notifications.push({ options: o })
     }
 
     render = function() {
@@ -37,37 +35,29 @@
     remove = function(notification) {
         var content = $(notification).find('div.content').html();
 
-        for (var i = 0; i < notifications.length; i++) {
-            if (notifications[i].options.content == content) {
-                notifications.splice(i, 1);
-                break;
-            }
-        }
-        $(notification).parent().hide();
+        $(notification).fadeOut(function() {
+            $(notification).remove();
 
-        if (o.pool > 0) {
-            display();
-        }
+            if ($('div.jNotify div.jNotify-notification').length > 0 && o.pool > 0) {
+                display();
+            }
+        });
     }
 
     display = function() {
         var displayed = 0;
-
         $('div.jNotify div.jNotify-notification').each(function(idx, e) {
-            console.log('e -> ' + $(e).html() + ' | hidden ' + $(e).is(':hidden'))
             if ($(e).is(':hidden')) {
-                // console.log('hidden... -> ' + e)
-                $(e).show();
+                $(e).fadeIn();
 
-                $(e).find('button.close').click(onClickClose);
-                setTimeout(function() {
+                var t = setTimeout(function() {
                     remove(e);
+                    clearInterval(t);
                 }, o.timeout);
-            } else {
-                displayed++;
             }
 
-            if (displayed == o.pool && o.pool > 0) {
+            displayed++;
+            if (o.pool > 0 && displayed >= o.pool) {
                 return false;
             }
         });
@@ -87,29 +77,27 @@
     // Constructor
     ///////////////////////
 
-    var notifications = [];
-
-    var defaults = {
-        // Layout to use (must be "top left", "top right", "bottom left", "bottom right")
-        position: 'top right',
-
-        // Define if the notification is closable
-        isClosable: true,
-
-        // Content of the notification
-        content: '',
-
-        // Callback to call when user click on "close" button
-        onClickClose: onClickClose,
-
-        // Time in milliseconds while bubble is displayed
-        timeout: 5000,
-
-        // Limit the number of notification displayed (0 to disable)
-        pool: 1
-    };
-
     $.jNotify = function(options) {
+        var defaults = {
+            // Layout to use (must be "top left", "top right", "bottom left", "bottom right")
+            position: 'top right',
+
+            // Define if the notification is closable
+            isClosable: true,
+
+            // Content of the notification
+            content: '',
+
+            // Callback to call when user click on "close" button
+            onClickClose: onClickClose,
+
+            // Time in milliseconds while bubble is displayed
+            timeout: 5000,
+
+            // Limit the number of notification displayed (0 to disable)
+            pool: 0
+        };
+
         o = $.extend(defaults, options);
 
         create();
