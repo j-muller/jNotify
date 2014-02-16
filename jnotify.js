@@ -1,7 +1,6 @@
-/*
- * jNotify.js
- * Written by Jeffrey Muller
- * jHeberg.net - 2013
+/**
+ * Copyright (c) 2013 Jeffrey Muller <jeffrey.muller92[at]gmail[dot]com>
+ * Licensed under the MIT license
  */
 
 (function($) {
@@ -35,6 +34,9 @@
     remove = function(notification) {
         var content = $(notification).find('div.content').html();
 
+        if (o.onClose !== null && typeof onClose == 'function')
+            o.onClose(notification);
+
         $(notification).fadeOut(function() {
             $(notification).remove();
 
@@ -48,6 +50,9 @@
         var displayed = 0;
         $('div.jNotify div.jNotify-notification').each(function(idx, e) {
             if ($(e).is(':hidden')) {
+                if (o.onOpen !== null && typeof o.onOpen == 'function')
+                    o.onOpen(e);
+
                 $(e).fadeIn();
 
                 var t = setTimeout(function() {
@@ -89,14 +94,20 @@
             // Content of the notification
             content: '',
 
-            // Callback to call when user click on "close" button
-            onClickClose: onClickClose,
-
             // Time in milliseconds while bubble is displayed
             timeout: 5000,
 
             // Limit the number of notification displayed (0 to disable)
-            pool: 0
+            pool: 0,
+
+            // Callback to call when notification appears
+            onOpen: null,
+
+            // Callback to call when user click on "close" button
+            onClickClose: onClickClose,
+
+            // Callback to call when notification disappear
+            onClose: null
         };
 
         o = $.extend(defaults, options);
